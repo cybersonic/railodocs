@@ -129,5 +129,6 @@ pages:
 - ['tags/cfxml.md', 'Tags', 'cfxml']
 - ['tags/cfzip.md', 'Tags', 'cfzip']
 - ['tags/cfzipparam.md', 'Tags', 'cfzipparam']
-- ['functions.md', 'Functions']
+
+- ['functions.md', 'Function Listing']
 theme: readthedocs
