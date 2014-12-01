@@ -1,0 +1,8 @@
+{
+  "name": "railodocs",
+  "version": "0.0.1",
+  "description": "Railo documentation server.",
+  "dependencies": {
+    "express": "^4.10.2"
+  }
+}
