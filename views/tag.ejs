@@ -1,0 +1,227 @@
+<style>
+	.syntaxAttr={color:maroon;}
+</style>
+<section id="function_description">
+  <div class="page-header">
+    <h1>cf<%= tag.name %></h1>
+  </div>
+	
+	<% if(tag.status=='deprecated'){ %>
+	<div class="alert alert-info">
+		 <strong>Warning!</strong> This tag has been depricated
+	</div>
+	<% } %>
+
+	<div class="text">
+		<%= tag.description %>
+	</div>
+	
+	<h4>Body</h4>
+	<%
+
+		var body = {};
+		body.prohibited = "This tag can't have a body.";
+		body.free = "This tag may have a body.";
+		body.required = "This tag must have a body.";
+	%>
+	
+	<div class="text"><%= body[tag.bodyType] %></div>
+	
+
+<pre>
+		<%= JSON.stringify(tag, null, 4) %>
+</pre>
+
+	<h4>Example</h4>
+	
+
+	<% 
+		var tout = "";
+		var tagName = tag.nameSpace + tag.nameSpaceSeperator + tag.name; 
+		if(tag.hasNameAppendix){
+			tagName += "CustomName";
+		}
+
+		tout += "<" + tagName;
+		if(tag.attributeType == 'noname'){
+			tout += tag.attributeType;
+		}
+		else{
+			//Loop through the attributes
+			for(attrib in tag.attributes){
+					tout +=" " + attrib.type;
+			}
+
+		}
+		
+
+
+	%>
+	<%= tagName %>
+
+	
+	<pre class="prettyprint"><%= tout %></pre>
+
+
+
+	<!-- color coded example tag -->
+<pre class="prettyprint">
+
+<span class="syntaxTag">&lt;#tagName#</span>
+<cfif tag.getattributeType() EQ "noname"> 
+<span class="syntaxAttr">##<cfloop array="#arrAttrNames#" index="key">#tag.getattributes()[key].type# <cfbreak></cfloop>expression##</span> <cfelse><!-- 
+--><cfloop array="#arrAttrNames#" index="key"><cfset attr=tag.getattributes()[key]><cfif attr.status EQ "hidden"><cfcontinue></cfif>
+	<cfif not attr.required><span class="syntaxAttr">[</span></cfif><!--
+	--><span class="syntaxAttr">#key#</span>=<span class="syntaxText">"<cfif not attr.required><i></cfif>#attr.type#<cfif not attr.required></i></cfif>"</span><!--
+	--><cfif not attr.required><span class="syntaxAttr">]</span></cfif></cfloop></cfif><!--
+
+--><cfif tag.getattributeType() EQ "dynamic" or tag.getattributeType() EQ "mixed"> <span class="syntaxAttr">...</span> </cfif><cfif tag.getbodyType() EQ "prohibited"><span class="syntaxTag">&gt;</span>
+<cfelseif tag.getbodyType() EQ "free"><span class="syntaxTag">&gt;
+
+[&lt;/#tagName#&gt;]</span>
+<cfelseif tag.getbodyType() EQ "required"><span class="syntaxTag">&gt;
+
+&lt;/#tagName#&gt;</span></cfif></pre>
+	
+		<cfif tag.getscript().type NEQ "none">
+			<cfset arrAttrNames=StructKeyArray(tag.getattributes())>
+			<cfset ArraySort(arrAttrNames,'textnocase')>
+			<div class="text">This tag is also supported within cfscript</div>
+			<pre class="prettyprint"><span class="syntaxTag">&lt;cfscript></span>
+	<span class="syntaxAttr">#tag.getname()#</span><!--
+No Name
+ --><cfif tag.getattributeType() EQ "noname"> <span class="syntaxAttr">##<cfloop array="#arrAttrNames#" index="key">#tag.getattributes()[key].type# <cfbreak></cfloop>expression##</span><!--
+ 
+Single type 
+ --><cfelseif tag.getscript().type EQ "single"><span class="syntaxAttr"><cfloop array="#arrAttrNames#" index="key"><cfset ss=tag.getattributes()[key].scriptSupport><cfif ss NEQ "none"> <!-- 
+ --><cfif ss EQ "optional">[</cfif>#tag.getattributes()[key].type#<cfif tag.getscript().rtexpr> expression</cfif><cfif ss EQ "optional">]</cfif><cfbreak></cfif></cfloop></span><!-- 
+ 
+ 
+multiple
+--><cfelse><cfloop array="#arrAttrNames#" index="key"><cfset attr=tag.getattributes()[key]><cfif attr.status EQ "hidden"><cfcontinue></cfif>
+	<cfif not attr.required><span class="syntaxAttr">[</span></cfif><!--
+	--><span class="syntaxAttr">#key#</span>=<span class="syntaxText">"<cfif not attr.required><i></cfif>#attr.type#<cfif not attr.required></i></cfif>"</span><!--
+	--><cfif not attr.required><span class="syntaxAttr">]</span></cfif></cfloop></cfif><!--
+
+--><cfif tag.getattributeType() EQ "dynamic" or tag.getattributeType() EQ "mixed"> <span class="syntaxAttr">...</span> </cfif><cfif tag.getbodyType() EQ "prohibited"><span class="syntaxAttr">;</span><cfelseif tag.getbodyType() EQ "required" or tag.getbodyType() EQ "free"><span class="syntaxAttr"> {
+
+}</span></cfif>
+<span class="syntaxTag">&lt;/cfscript></span></pre>
+		</cfif>
+
+	<cfscript>
+	type = {};
+	type.noname = "This tag only allows one attribute value (no name).";
+	type.mixed = "This tag has a fixed definition of attributes (see below). In addition it allowes to use any additional attribute.";
+	type.fixed = "The attributes for this tag are fixed. Except for the following attributes no other attributes are allowed.";
+	type.dynamic = "There is no restriction for attributes for this tag.";
+
+
+	stText = {};
+	stText.doc = {};
+	stText.doc.body = {};
+	stText.doc.body.free = "This tag may have a body.";
+	stText.doc.body.required = "This tag must have a body.";
+	stText.doc.attr.name = "Name";
+	stText.doc.attr.minmax = "This tag must have at least {min} attributes but the most {max}.";
+	stText.doc.attr.min = "This tag must have at least {min} attributes.";
+	stText.doc.attr._type = "Type";
+	stText.doc.attr.required = "Required";
+	stText.doc.attr.zero = "This tag has no attributes";
+	stText.doc.attr.type.noname = "This tag only allows one attribute value (no name).";
+	stText.doc.attr.type.mixed = "This tag has a fixed definition of attributes (see below). In addition it allowes to use any additional attribute.";
+	stText.doc.attr.type.fixed = "The attributes for this tag are fixed. Except for the following attributes no other attributes are allowed.";
+	stText.doc.attr.type.dynamic = "There is no restriction for attributes for this tag.";
+	stText.doc.attr.max = "Only the number of attributes is restricted to {max}.";
+	stText.doc.attr.description = "Description";
+	stText.doc.depAttr = "This Attribute is deprecated";
+	</cfscript>
+
+	<h4>Attributes</h4>
+	<cfif tag.getattributeType() EQ "fixed" and not arrayLen(arrAttrNames)>
+			<div class="text">This tag has no attributes</div>
+		<cfelse>
+			<div class="text">#type[tag.getattributeType()]#
+				<cfif tag.getattributeType() EQ "dynamic">
+					<cfif tag.getattrMin() GT 0 and tag.getattrMax() GT 0>
+						#replace(replace(stText.doc.attr.minMax,"{min}",tag.getattrMin()),"{max}",tag.getattrMax())#
+					<cfelseif tag.getattrMin() GT 0>
+						#replace(stText.doc.attr.min,"{min}",tag.getattrMin())#
+					<cfelseif tag.getattrMax() GT 0>
+						#replace(stText.doc.attr.max,"{max}",tag.getattrMax())#
+					</cfif>
+				</cfif>
+			</div>
+		</cfif>
+		<cfif (tag.getattributeType() EQ "fixed" or tag.getattributeType() EQ "mixed") and arrayLen(arrAttrNames)>
+			<table class="table table-striped table table-bordered">
+				<thead>
+					<tr>
+						<th width="21%">#stText.doc.attr.name#</th>
+						<th width="7%">#stText.doc.attr._type#</th>
+						<th width="7%">#stText.doc.attr.required#</th>
+						<th width="65%">#stText.doc.attr.description#</th>
+					</tr>
+				</thead>
+				<tbody>
+					<cfloop array="#arrAttrNames#" index="key">
+						<cfset attr=tag.getattributes()[key]>
+						<cfif attr.status EQ "hidden"><cfcontinue></cfif>
+						<tr>
+							<td>#key#</td>
+							<td><cfif attr.type EQ "object">any<cfelse>#attr.type#</cfif></td>
+							<td>#YesNoFormat(attr.required)#</td>
+							<td><cfif attr.status EQ "deprecated"><b class="error">#stText.doc.depAttr#</b><cfelse>#formatDesc(attr.description)#</cfif>&nbsp;</td>
+						</tr>
+					</cfloop>
+				</tbody>
+			</table>
+		</cfif>
+
+
+<!--
+
+		<script>
+			$(function(){
+					$.ajax("#buildURL("/issues/search/term/cf#rc.item#")#", {
+						accepts: "JSON",
+						beforeSend: function(){
+							$("##JiraCount").html('<i class="icon-spinner icon-spin icon-large"></i> Checking ');
+						},
+						success: function(data) {
+							$("##JiraCount").html(data.resultcount + ' ');
+						}
+					});
+
+
+				});
+		</script>
+		<h4><span id="JiraCount"></span>Active Jira Issues <a href="https://issues.jboss.org/issues/?jql=text%20~%20%22cf#rc.item#%22%20AND%20project%3DRailo%20ANd%20status%20!%3D%20Closed%20AND%20status%20!%3D%20Resolved" target="_new">View <i class="icon-search"></i></a></h4>
+
+		<table>
+
+
+		</table>
+-->
+ </section>
+ <!--
+ <div class="well">
+			<div id="disqus_thread"></div>
+		    <script type="text/javascript">
+		        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+		        var disqus_shortname = 'railodocs'; // required: replace example with your forum shortname
+				var disqus_identifier = "tag_#rc.item#"; //Tag identifier
+				
+		        /* * * DON'T EDIT BELOW THIS LINE * * */
+		        (function() {
+		            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+		            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+		            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+		        })();
+		    </script>
+		    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+		    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+
+		</div>
+-->

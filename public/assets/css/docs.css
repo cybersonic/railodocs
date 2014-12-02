@@ -1,0 +1,20 @@
+
+body {
+    position: relative;
+    padding-top: 50px;
+}
+.brand {
+	background: url("/images/railo_logo.png") no-repeat;
+	 text-indent: -3000px;   
+}
+.hero-unit {
+	background-image: url(/images/orange_background.jpg);
+	background-repeat: repeat-x;
+	background-position: 10px;
+	color: white;
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+.footer {
+	background-color: #f5f5f5;
+}

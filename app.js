@@ -1,16 +1,22 @@
-var app = require("express")();
+var express = require("express")
+var app = express();
+var expressLayouts = require('express-ejs-layouts');
 var http = require('http').Server(app);
-var fs = require('fs');
-
-
+var ejs = require('ejs');
 
 var version = require('./controllers/version');
 var tag = require('./controllers/tag');
 var func = require('./controllers/function');
 
-var fs = require('fs');
 
-app.get('/api/version', version.current); //Get a specific version... this will have odd loopbacks. 
+
+app.set('view engine', 'ejs');
+app.set('layout', "layout");
+app.use(expressLayouts);
+app.use(express.static(__dirname + '/public'));
+
+
+app.get('/api/version', version.current);
 app.get('/api/versions', version.list);
 app.get('/api/current', version.current);
 app.get('/api/tags', tag.list);
