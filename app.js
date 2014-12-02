@@ -16,6 +16,8 @@ app.use(expressLayouts);
 app.use(express.static(__dirname + '/public'));
 
 
+console.log("env: ", app.settings.env);
+
 app.get('/api/version', version.current);
 app.get('/api/versions', version.list);
 app.get('/api/current', version.current);
@@ -32,7 +34,11 @@ app.get('/functions', func.list);
 app.get('/function/:id', func.get);
 
 
+var port = 80;
+if(app.settings.env == 'development'){
+	port = 3000;
+}
 
-http.listen(3000,function(){
-	console.log("listening on *:3000");
+http.listen(port,function(){
+	console.log("listening on *:"+ port);
 });
