@@ -1,12 +1,12 @@
 var app = require("express")();
 var http = require('http').Server(app);
-app.set('views', __dirname + '/views')
-app.set('view engine', 'jade')
+var fs = require('fs');
 
 
-var version = require('./version');
-var tag = require('./tag');
-var func = require('./function');
+
+var version = require('./controllers/version');
+var tag = require('./controllers/tag');
+var func = require('./controllers/function');
 
 var fs = require('fs');
 
@@ -24,7 +24,6 @@ app.get('/tags', tag.list);
 app.get('/tag/:id', tag.get);
 app.get('/functions', func.list);
 app.get('/function/:id', func.get);
-
 
 
 

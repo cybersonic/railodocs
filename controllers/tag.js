@@ -1,6 +1,6 @@
-var version = require('./model/version.js');
-var tag = require('./model/tag.js');
-var tag = require('./model/tag.js');
+ var version = require('../model/version.js');
+ var tag = require('../model/tag.js');
+ var tag = require('../model/tag.js');
 
 
 

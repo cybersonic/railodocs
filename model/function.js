@@ -3,9 +3,11 @@ var fs = require('fs');
 exports.list = function(version){
 	//Should check it version IS VALID.
 
-	var functionlist =  JSON.parse(fs.readFileSync("./export/" + version + "/json/functions.json", "utf8"));
-	return functionlist;
-
+	console.log("Functions.list");
+	return fs.readFileSync("./export/" + version + "/json/functions.json", "utf8", function(err, data){
+		console.log("Reading Async");
+		return  JSON.parse(data);
+	});
 }
 
 
