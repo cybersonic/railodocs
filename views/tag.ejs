@@ -43,50 +43,97 @@
 		}
 
 		tout += "<" + tagName;
+
+		
+
+
+
 		if(tag.attributeType == 'noname'){
-			tout += tag.attributeType;
+				tout += " #";
+
+				for(key in tag.attributes){
+					tout += tag.attributes[key].type;
+				}
+				tout += "expression#";	
 		}
 		else{
-			//Loop through the attributes
+			//Sort the attributes by required (being the top ones)
+			var sortedAttributes =[];
+			
 			for(attrib in tag.attributes){
-					tout +=" " + attrib.type;
+				var item = tag.attributes[attrib];
+					item.name = attrib;
+				sortedAttributes.push(item);
 			}
+			sortedAttributes.sort(function(a,b){
+				if(a.required && !b.required ){
+					return false;
+				}
+				return true;
+			});
 
+
+			
+			
+			for(attrib in sortedAttributes){
+				
+				var attribinfo = sortedAttributes[attrib];
+
+				if(attribinfo.status == 'hidden'){
+					continue;				
+				}
+				
+				tout += "\n\t"; 
+				tout += attribinfo.required? "" : "["; 
+				tout += attribinfo.name + "=" + attribinfo.type ;
+				tout += attribinfo.required? "" : "]"; 
+			}
 		}
-		
+
+
+		//Ending of the tag
+
+		if(tag.attributeType == "dynamic" || tag.attributeType == "mixed"){
+			tout += "\n\t...";
+		}
+
+
+
+		if(tag.bodyType == "prohibited"){
+			tout += "\n\t>";	
+		}
+		else if(tag.bodyType == "free"){
+			tout += ">";
+			tout += "\n[</" + tagName + ">]";
+		}
+		else if(tag.bodyType == "required"){
+			tout += "\n</" + tagName + ">";
+		}	
+
+
 
 
 	%>
 	<%= tagName %>
-
-	
 	<pre class="prettyprint"><%= tout %></pre>
 
 
 
+	<%= tag.script.type %>
 	<!-- color coded example tag -->
-<pre class="prettyprint">
+	<% if(tag.script.type != 'none'){ %>
+		<div class="text">This tag is also supported within cfscript</div>
 
-<span class="syntaxTag">&lt;#tagName#</span>
-<cfif tag.getattributeType() EQ "noname"> 
-<span class="syntaxAttr">##<cfloop array="#arrAttrNames#" index="key">#tag.getattributes()[key].type# <cfbreak></cfloop>expression##</span> <cfelse><!-- 
---><cfloop array="#arrAttrNames#" index="key"><cfset attr=tag.getattributes()[key]><cfif attr.status EQ "hidden"><cfcontinue></cfif>
-	<cfif not attr.required><span class="syntaxAttr">[</span></cfif><!--
-	--><span class="syntaxAttr">#key#</span>=<span class="syntaxText">"<cfif not attr.required><i></cfif>#attr.type#<cfif not attr.required></i></cfif>"</span><!--
-	--><cfif not attr.required><span class="syntaxAttr">]</span></cfif></cfloop></cfif><!--
 
---><cfif tag.getattributeType() EQ "dynamic" or tag.getattributeType() EQ "mixed"> <span class="syntaxAttr">...</span> </cfif><cfif tag.getbodyType() EQ "prohibited"><span class="syntaxTag">&gt;</span>
-<cfelseif tag.getbodyType() EQ "free"><span class="syntaxTag">&gt;
+	<% } %>
 
-[&lt;/#tagName#&gt;]</span>
-<cfelseif tag.getbodyType() EQ "required"><span class="syntaxTag">&gt;
 
-&lt;/#tagName#&gt;</span></cfif></pre>
+
 	
 		<cfif tag.getscript().type NEQ "none">
 			<cfset arrAttrNames=StructKeyArray(tag.getattributes())>
 			<cfset ArraySort(arrAttrNames,'textnocase')>
-			<div class="text">This tag is also supported within cfscript</div>
+			
 			<pre class="prettyprint"><span class="syntaxTag">&lt;cfscript></span>
 	<span class="syntaxAttr">#tag.getname()#</span><!--
 No Name
@@ -106,7 +153,7 @@ multiple
 --><cfif tag.getattributeType() EQ "dynamic" or tag.getattributeType() EQ "mixed"> <span class="syntaxAttr">...</span> </cfif><cfif tag.getbodyType() EQ "prohibited"><span class="syntaxAttr">;</span><cfelseif tag.getbodyType() EQ "required" or tag.getbodyType() EQ "free"><span class="syntaxAttr"> {
 
 }</span></cfif>
-<span class="syntaxTag">&lt;/cfscript></span></pre>
+<span class="syntaxTag">&lt;/cfscript></span>
 		</cfif>
 
 	<cfscript>
