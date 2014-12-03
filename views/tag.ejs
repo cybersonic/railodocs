@@ -28,215 +28,81 @@
 	<div class="text"><%= body[tag.bodyType] %></div>
 	
 
-<pre>
-		<%= JSON.stringify(tag, null, 4) %>
-</pre>
-
 	<h4>Example</h4>
 	
+	<pre class="prettyprint"><%= tagcode %></pre>
 
-	<% 
-		var tout = "";
-		var tagName = tag.nameSpace + tag.nameSpaceSeperator + tag.name; 
-		if(tag.hasNameAppendix){
-			tagName += "CustomName";
-		}
-
-		tout += "<" + tagName;
-
-		
-
-
-
-		if(tag.attributeType == 'noname'){
-				tout += " #";
-
-				for(key in tag.attributes){
-					tout += tag.attributes[key].type;
-				}
-				tout += "expression#";	
-		}
-		else{
-			//Sort the attributes by required (being the top ones)
-			var sortedAttributes =[];
-			
-			for(attrib in tag.attributes){
-				var item = tag.attributes[attrib];
-					item.name = attrib;
-				sortedAttributes.push(item);
-			}
-			sortedAttributes.sort(function(a,b){
-				if(a.required && !b.required ){
-					return false;
-				}
-				return true;
-			});
-
-
-			var attributeout = "";
-			
-			for(attrib in sortedAttributes){
-				
-				var attribinfo = sortedAttributes[attrib];
-
-				if(attribinfo.status == 'hidden'){
-					continue;				
-				}
-				
-				attributeout += "~~"; 
-				attributeout += attribinfo.required? "" : "["; 
-				attributeout += attribinfo.name + "=\"" + attribinfo.type +"\"" ;
-				attributeout += attribinfo.required? "" : "]"; 
-			}
-			tout += attributeout.replace(/~~/g, "\n\t");
-		}
-
-
-		//Ending of the tag
-
-		if(tag.attributeType == "dynamic" || tag.attributeType == "mixed"){
-			tout += "\n\t...";
-		}
-
-
-
-		if(tag.bodyType == "prohibited"){
-			tout += "\n\t>";	
-		}
-		else if(tag.bodyType == "free"){
-			tout += ">";
-			tout += "\n[</" + tagName + ">]";
-		}
-		else if(tag.bodyType == "required"){
-			tout += "\n</" + tagName + ">";
-		}	
-
-
-
-
-	%>
-	<%= tagName %>
-	<pre class="prettyprint"><%= tout %></pre>
-
-
-
-	<%= tag.script.type %>
 	<!-- color coded example tag -->
-	<% if(tag.script.type != 'none'){ %>
+	<% if(tag.script && tag.script.type != 'none'){ %>
 		<div class="text">This tag is also supported within cfscript</div>
-		<%
-			var scriptout = "<cfscript>";
-
-
-				scriptout += "\n\t" + tag.name;
-				scriptout += attributeout.replace(/~~/g, "");
-
-
-			scriptout += "\n</cfscript>";
-		%>
-
-
-		<pre class="prettyprint"><%= scriptout %></pre>
+		<pre class="prettyprint"><%= scriptcode %></pre>
+	<% } else{ %>
+		<div class="text">This tag has no cfscript support or it uses a different syntax</div>
 	<% } %>
 
-
-
-	
-		<cfif tag.getscript().type NEQ "none">
-			<cfset arrAttrNames=StructKeyArray(tag.getattributes())>
-			<cfset ArraySort(arrAttrNames,'textnocase')>
-			
-			<pre class="prettyprint"><span class="syntaxTag">&lt;cfscript></span>
-	<span class="syntaxAttr">#tag.getname()#</span><!--
-No Name
- --><cfif tag.getattributeType() EQ "noname"> <span class="syntaxAttr">##<cfloop array="#arrAttrNames#" index="key">#tag.getattributes()[key].type# <cfbreak></cfloop>expression##</span><!--
- 
-Single type 
- --><cfelseif tag.getscript().type EQ "single"><span class="syntaxAttr"><cfloop array="#arrAttrNames#" index="key"><cfset ss=tag.getattributes()[key].scriptSupport><cfif ss NEQ "none"> <!-- 
- --><cfif ss EQ "optional">[</cfif>#tag.getattributes()[key].type#<cfif tag.getscript().rtexpr> expression</cfif><cfif ss EQ "optional">]</cfif><cfbreak></cfif></cfloop></span><!-- 
- 
- 
-multiple
---><cfelse><cfloop array="#arrAttrNames#" index="key"><cfset attr=tag.getattributes()[key]><cfif attr.status EQ "hidden"><cfcontinue></cfif>
-	<cfif not attr.required><span class="syntaxAttr">[</span></cfif><!--
-	--><span class="syntaxAttr">#key#</span>=<span class="syntaxText">"<cfif not attr.required><i></cfif>#attr.type#<cfif not attr.required></i></cfif>"</span><!--
-	--><cfif not attr.required><span class="syntaxAttr">]</span></cfif></cfloop></cfif><!--
-
---><cfif tag.getattributeType() EQ "dynamic" or tag.getattributeType() EQ "mixed"> <span class="syntaxAttr">...</span> </cfif><cfif tag.getbodyType() EQ "prohibited"><span class="syntaxAttr">;</span><cfelseif tag.getbodyType() EQ "required" or tag.getbodyType() EQ "free"><span class="syntaxAttr"> {
-
-}</span></cfif>
-<span class="syntaxTag">&lt;/cfscript></span>
-		</cfif>
-
-	<cfscript>
-	type = {};
-	type.noname = "This tag only allows one attribute value (no name).";
-	type.mixed = "This tag has a fixed definition of attributes (see below). In addition it allowes to use any additional attribute.";
-	type.fixed = "The attributes for this tag are fixed. Except for the following attributes no other attributes are allowed.";
-	type.dynamic = "There is no restriction for attributes for this tag.";
-
-
-	stText = {};
-	stText.doc = {};
-	stText.doc.body = {};
-	stText.doc.body.free = "This tag may have a body.";
-	stText.doc.body.required = "This tag must have a body.";
-	stText.doc.attr.name = "Name";
-	stText.doc.attr.minmax = "This tag must have at least {min} attributes but the most {max}.";
-	stText.doc.attr.min = "This tag must have at least {min} attributes.";
-	stText.doc.attr._type = "Type";
-	stText.doc.attr.required = "Required";
-	stText.doc.attr.zero = "This tag has no attributes";
-	stText.doc.attr.type.noname = "This tag only allows one attribute value (no name).";
-	stText.doc.attr.type.mixed = "This tag has a fixed definition of attributes (see below). In addition it allowes to use any additional attribute.";
-	stText.doc.attr.type.fixed = "The attributes for this tag are fixed. Except for the following attributes no other attributes are allowed.";
-	stText.doc.attr.type.dynamic = "There is no restriction for attributes for this tag.";
-	stText.doc.attr.max = "Only the number of attributes is restricted to {max}.";
-	stText.doc.attr.description = "Description";
-	stText.doc.depAttr = "This Attribute is deprecated";
-	</cfscript>
-
 	<h4>Attributes</h4>
-	<cfif tag.getattributeType() EQ "fixed" and not arrayLen(arrAttrNames)>
-			<div class="text">This tag has no attributes</div>
-		<cfelse>
-			<div class="text">#type[tag.getattributeType()]#
-				<cfif tag.getattributeType() EQ "dynamic">
-					<cfif tag.getattrMin() GT 0 and tag.getattrMax() GT 0>
-						#replace(replace(stText.doc.attr.minMax,"{min}",tag.getattrMin()),"{max}",tag.getattrMax())#
-					<cfelseif tag.getattrMin() GT 0>
-						#replace(stText.doc.attr.min,"{min}",tag.getattrMin())#
-					<cfelseif tag.getattrMax() GT 0>
-						#replace(stText.doc.attr.max,"{max}",tag.getattrMax())#
-					</cfif>
-				</cfif>
-			</div>
-		</cfif>
-		<cfif (tag.getattributeType() EQ "fixed" or tag.getattributeType() EQ "mixed") and arrayLen(arrAttrNames)>
+
+	<% if(tag.attributeType == "fixed" && tag.attributes.length == 0) { %>
+		<div class="text">This tag has no attributes</div>
+
+	<% } else { %>
+		<div class="text"><%= attrinfo.type[tag.attributeType] %>
+		<% if(tag.attributeType == "dynamic") { %>
+				<% if(tag.attrMin > 0 && tag.attrMax > 0) { %>
+					<%= attrinfo.text.doc.attr.minMax.replace(/{min}/, tag.attrMin).replace(/{max}/, tag.attrMax) %> 	
+				<%} else if(tag.attrMin > 0){ %>
+						<%= attrinfo.text.doc.attr.min.replace(/{min}/, tag.attrMin) %> 
+						
+				<%} else if(tag.attrMax > 0){ %>
+						<%= attrinfo.text.doc.attr.max.replace(/{max}/, tag.attrMax) %> 
+						
+				<%}%>	
+		<%}%>
+		</div>
+
+	<% }%>
+	
+	<% if ((tag.attributeType == "fixed" || tag.attributeType == "mixed") && Object.keys(tag.attributes).length) { %>
 			<table class="table table-striped table table-bordered">
 				<thead>
 					<tr>
-						<th width="21%">#stText.doc.attr.name#</th>
-						<th width="7%">#stText.doc.attr._type#</th>
-						<th width="7%">#stText.doc.attr.required#</th>
-						<th width="65%">#stText.doc.attr.description#</th>
+						<th width="21%"><%= attrinfo.text.doc.attr.name %></th>
+						<th width="7%"><%= attrinfo.text.doc.attr._type %></th>
+						<th whostelbookeridth="7%"><%= attrinfo.text.doc.attr.required %></th>
+						<th width="65%"><%= attrinfo.text.doc.attr.description %></th>
 					</tr>
 				</thead>
 				<tbody>
-					<cfloop array="#arrAttrNames#" index="key">
-						<cfset attr=tag.getattributes()[key]>
-						<cfif attr.status EQ "hidden"><cfcontinue></cfif>
+					<% for(key in tag.attributes) {
+							var attr = tag.attributes[key];
+							if(attr.status == 'hidden') { 
+								continue;
+							}
+						%>	
+						
 						<tr>
-							<td>#key#</td>
-							<td><cfif attr.type EQ "object">any<cfelse>#attr.type#</cfif></td>
+							<td><%=  key %></td>
+							<td><%=  attr.type == "object" ? "any" : attr.type %></td>
 							<td>#YesNoFormat(attr.required)#</td>
-							<td><cfif attr.status EQ "deprecated"><b class="error">#stText.doc.depAttr#</b><cfelse>#formatDesc(attr.description)#</cfif>&nbsp;</td>
+							<td>
+							<% if(attr.status =='deprecated') { %>
+									<b class="error">#stText.doc.depAttr#</b>
+							<%} else { %>	
+
+							<%}%>	
+
+							<cfif attr.status EQ "deprecated"><b class="error">#stText.doc.depAttr#</b><cfelse>#formatDesc(attr.description)#</cfif>&nbsp;</td>
 						</tr>
-					</cfloop>
+					<% } %>
 				</tbody>
 			</table>
-		</cfif>
-
+	<%}%>	
+		
+			
+		
+	<pre>
+		<%= JSON.stringify(tag, null, 4) %>
+	</pre>
 
 <!--
 
