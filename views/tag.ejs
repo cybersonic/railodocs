@@ -73,7 +73,7 @@
 			});
 
 
-			
+			var attributeout = "";
 			
 			for(attrib in sortedAttributes){
 				
@@ -83,11 +83,12 @@
 					continue;				
 				}
 				
-				tout += "\n\t"; 
-				tout += attribinfo.required? "" : "["; 
-				tout += attribinfo.name + "=" + attribinfo.type ;
-				tout += attribinfo.required? "" : "]"; 
+				attributeout += "~~"; 
+				attributeout += attribinfo.required? "" : "["; 
+				attributeout += attribinfo.name + "=\"" + attribinfo.type +"\"" ;
+				attributeout += attribinfo.required? "" : "]"; 
 			}
+			tout += attributeout.replace(/~~/g, "\n\t");
 		}
 
 
@@ -123,8 +124,19 @@
 	<!-- color coded example tag -->
 	<% if(tag.script.type != 'none'){ %>
 		<div class="text">This tag is also supported within cfscript</div>
+		<%
+			var scriptout = "<cfscript>";
 
 
+				scriptout += "\n\t" + tag.name;
+				scriptout += attributeout.replace(/~~/g, "");
+
+
+			scriptout += "\n</cfscript>";
+		%>
+
+
+		<pre class="prettyprint"><%= scriptout %></pre>
 	<% } %>
 
 
