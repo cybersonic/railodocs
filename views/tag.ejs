@@ -1,19 +1,40 @@
 <style>
 	.syntaxAttr={color:maroon;}
 </style>
-<section id="function_description">
-  <div class="page-header">
-    <h1>cf<%= tag.name %></h1>
-  </div>
+<div class="jumbotron">
+	<h1>cf<%= tag.name %> </h1>
+	<p><%= tag.description %></p>
+	<%
+		String.prototype.capitalize = function() {
+    		return this.charAt(0).toUpperCase() + this.slice(1);
+		}
+		var labeltype = 'label-default';
+		var statusLabel = tag.status.capitalize();
+		if(tag.status == 'implemented' || tag.status == 'implemeted'){
+			labeltype = 'label-success';
+			statusLabel = 'Implemented';
+		}
+		if(tag.status == 'deprecated'){
+			labeltype = 'label-warning';
+		
+		}
+
+		
+	%>
+	<h3><span class="label <%= labeltype %>"><%= statusLabel %></span></h3>
 	
+</div>
+
+
+<section id="tag_description">
+ 	<hr>
 	<% if(tag.status=='deprecated'){ %>
 	<div class="alert alert-info">
 		 <strong>Warning!</strong> This tag has been depricated
 	</div>
 	<% } %>
-
-	<div class="text">
-		<%= tag.description %>
+	<div class="well">
+	Type: <span class="icon-java-bold"></span> <%= tag.type %> 
 	</div>
 	
 	<h4>Body</h4>
@@ -83,15 +104,14 @@
 						<tr>
 							<td><%=  key %></td>
 							<td><%=  attr.type == "object" ? "any" : attr.type %></td>
-							<td>#YesNoFormat(attr.required)#</td>
+							<td><%= attr.required ? "Yes" :  "No" %></td>
 							<td>
 							<% if(attr.status =='deprecated') { %>
-									<b class="error">#stText.doc.depAttr#</b>
+									<b class="error"> <%= attrinfo.text.doc.depAttr %></b>
 							<%} else { %>	
-
+								<%- attr.description.replace(/\n/g, "<br>") %>
 							<%}%>	
-
-							<cfif attr.status EQ "deprecated"><b class="error">#stText.doc.depAttr#</b><cfelse>#formatDesc(attr.description)#</cfif>&nbsp;</td>
+							</td>
 						</tr>
 					<% } %>
 				</tbody>
