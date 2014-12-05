@@ -14,6 +14,42 @@ exports.get = function(tag, version){
 
 }
 
+
+exports.getByFilter = function(filter, value, version){
+
+	//Now let's really see if this is true.
+	var taglist = this.list(version);
+	var results = taglist.map(function(item){
+		var tagItem = JSON.parse(fs.readFileSync("./export/" + version + "/json/tags/" + item + ".json", "utf8"));
+
+		if (tagItem[filter]){
+			var unfitlered = {name: item};
+			unfitlered[filter] = tagItem[filter];
+			return unfitlered;
+		}
+
+
+	});
+
+		var Scores= {
+			implemented : 0,
+			 deprecated : 0,
+		}
+
+	var test = results.reduce(function(previous,current,index,original){
+
+		if()
+		console.log('reduce', arguments);
+
+		return {};
+
+	});
+
+	console.log("TEST", test);
+
+	return results;
+
+}
 /**
 	I format the tagcode
 */

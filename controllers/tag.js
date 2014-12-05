@@ -2,12 +2,16 @@
  var tag = require('../model/tag.js');
  var ejs = require('ejs');
 
-
-
-
 exports.list = function(req, res){
 	var currentversion = version.current();
 	var taglist = tag.list(currentversion);
+
+	if(req.params.filter){
+		res.json(tag.getByFilter(req.params.filter, req.params.value, currentversion));
+		return;
+	}
+
+
 
 	if(isApi(req)){
 		res.json(taglist);

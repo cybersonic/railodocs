@@ -20,17 +20,15 @@ app.use(express.static(__dirname + '/public'));
 
 app.get('/', home.index);
 app.get('/versions*', version.list);
-app.get('/tags*', tag.list);
+app.get('/tags/:filter', tag.list);
+app.get('/tags/:filter/:value', tag.list);
 app.get('/tag/:id', tag.get);
 app.get('/functions*', func.list);
 app.get('/function/:id', func.get);
 
 
-var port = 80;
-if(app.settings.env == 'development'){
-	port = 3000;
-}
+app.set('port', (process.env.PORT || 3000));
 
-http.listen(port,function(){
+http.listen(app.get("port"),function(){
 	console.log("listening on *:"+ port);
 });
