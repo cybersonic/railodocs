@@ -29,6 +29,6 @@ app.get('/function/:id', func.get);
 
 app.set('port', (process.env.PORT || 3000));
 
-http.listen(app.get("port"),function(){
-	console.log("listening on *:"+ port);
+app.listen(app.get("port"),function(){
+	console.log("listening on *:"+ app.get("port"));
 });

@@ -31,22 +31,7 @@ exports.getByFilter = function(filter, value, version){
 
 	});
 
-		var Scores= {
-			implemented : 0,
-			 deprecated : 0,
-		}
-
-	var test = results.reduce(function(previous,current,index,original){
-
-		if()
-		console.log('reduce', arguments);
-
-		return {};
-
-	});
-
-	console.log("TEST", test);
-
+	
 	return results;
 
 }
