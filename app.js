@@ -1,5 +1,7 @@
+require('newrelic');
 var express = require("express")
 var app = express();
+
 var expressLayouts = require('express-ejs-layouts');
 var favicon = require('serve-favicon');
 var http = require('http').Server(app);
