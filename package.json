@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "ejs": "^1.0.0",
+    "elasticsearch": "^3.0.1",
     "express": "^4.10.2",
     "express-ejs-layouts": "^1.1.0",
     "grunt": "^0.4.5",

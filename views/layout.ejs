@@ -69,12 +69,10 @@
 
       
 
-          <form class="navbar-form navbar-left" role="search"   action="#buildURL("search")#" method="GET">
+          <form class="navbar-form navbar-left" role="search" id="searchform" action="/search" method="GET">
             <div class="form-group">
-            <input type="hidden" name="action" value="current.search">
-            <input type="text" id="tags" class="form-control" placeholder="Search" name="q">
+            <input type="text" id="searchresults" class="form-control" placeholder="Search" name="term">
             </div>
-            <button type="submit" class="btn btn-default">Search</button>
           </form>
       </div>
     </nav>

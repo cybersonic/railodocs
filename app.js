@@ -1,5 +1,5 @@
 require('newrelic');
-var express = require("express")
+var express = require("express");
 var app = express();
 
 var expressLayouts = require('express-ejs-layouts');
@@ -8,10 +8,12 @@ var http = require('http').Server(app);
 var ejs = require('ejs');
 var fs = require('fs');
 
+
 var version = require('./controllers/version');
 var tag = require('./controllers/tag');
 var func = require('./controllers/function');
 var home = require('./controllers/home');
+var search = require('./controllers/search');
 
 app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(home.before);
@@ -22,10 +24,13 @@ app.use(express.static(__dirname + '/public'));
 
 app.get('/', home.index);
 app.get('/versions*', version.list);
+app.get('/search/', search.find);
+app.get('/search/:term', search.find);
 app.get('/tags/:filter', tag.list);
 app.get('/tags/:filter/:value', tag.list);
 app.get('/tag/:id', tag.get);
-app.get('/functions*', func.list);
+app.get('/functions', func.list);
+app.get('/functions/:filter', func.list);
 app.get('/function/:id', func.get);
 
 
