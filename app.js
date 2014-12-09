@@ -2,6 +2,7 @@ require('newrelic');
 var express = require("express");
 express.Server = express.HTTPServer
 var app = express();
+require('nodedump');
 
 
 var expressLayouts = require('express-ejs-layouts');
@@ -34,6 +35,7 @@ app.get('/tags/:filter', tag.list);
 app.get('/tags/:filter/:value', tag.list);
 app.get('/tag/:id', tag.get);
 app.get('/functions', func.list);
+//app.get('/objects', func.listObjects);
 app.get('/functions/:filter', func.list);
 app.get('/function/:id', func.get);
 

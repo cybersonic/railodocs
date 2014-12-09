@@ -13,6 +13,17 @@ exports.list = function(req, res){
 
 }
 
+exports.listObjects = function(req, res){
+	var currentversion = version.current();
+	var objects = fun.listObjects(currentversion);
+	if(isApi(req)){
+		res.json(objects );
+		return;
+	}
+
+	res.render('objects', {objects:objects});
+
+}
 
 exports.get = function(req, res){
 	var id = req.params.id;
@@ -28,7 +39,7 @@ exports.get = function(req, res){
 		func : functionData,
 		version: currentversion,
 		tagcode: fun.toTagCode(functionData),
-		scriptcode: fun.toScriptCode(functionData),
+		scriptcode: fun.toTagCode(functionData),
 		arginfo : fun.argumentTitles(),
 		argumentcode : fun.toArgumentString(functionData)
 	});

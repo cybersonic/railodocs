@@ -15,6 +15,7 @@
     "url": "https://github.com/cybersonic/railodocs"
   },
   "dependencies": {
+    "bunyan": "^1.2.3",
     "ejs": "^1.0.0",
     "elasticsearch": "^3.0.1",
     "express": "^4.10.2",
@@ -29,6 +30,7 @@
   },
   "devDependencies": {
     "grunt-contrib-watch": "^0.6.1",
+    "nodedump": "0.0.8",
     "pre-commit": "0.0.9"
   }
 }
