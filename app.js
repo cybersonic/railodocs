@@ -2,7 +2,7 @@ require('newrelic');
 var express = require("express");
 express.Server = express.HTTPServer
 var app = express();
-require('nodedump');
+
 
 
 var expressLayouts = require('express-ejs-layouts');
