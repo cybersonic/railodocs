@@ -18,11 +18,85 @@ exports.get = function(func, version){
 
 
 exports.toTagCode = function(fun){
-	return "";
+
+	var tagcode = "<cfset " + fun.returnType  +" = ";
+
+		tagcode+= fun.name + "(";
+	var optCount =  0;
+	var first = true;
+
+		for(var a in fun.arguments ){
+			var arg = fun.arguments[a];
+			if(arg.status == 'hidden'){
+				continue;
+			}
+			if(!first){
+				tagcode+=",";
+			}
+			if(!arg.required){
+				optCount++;
+				tagcode+="[";
+			}
+			tagcode+=arg.type + " ";
+			tagcode+=arg.name;
+			first = false;
+
+		}
+
+		for(var i=1;i<=optCount;i++){
+			tagcode+="]";
+		}
+
+
+		tagcode+= ") >";
+	
+
+	return tagcode ;
 }
 
+ function toArgumentString(fun) {
+
+	var scriptcode = "";
+	var optCount = 0;
+	var first = true;
+
+	for (var a in fun.arguments) {
+		var arg = fun.arguments[a];
+		if (arg.status == 'hidden') {
+			continue;
+		}
+		if (!first) {
+			scriptcode += ",";
+		}
+		if (!arg.required) {
+			optCount++;
+			scriptcode += "[";
+		}
+		scriptcode += arg.type + " ";
+		scriptcode += arg.name;
+		first = false;
+
+	}
+
+	for (var i = 1; i <= optCount; i++) {
+		scriptcode += "]";
+	}
+	return scriptcode;
+}
+exports.toArgumentString = toArgumentString;
+
 exports.toScriptCode =  function(fun){
-	return  "";
+
+
+	var scriptcode = "<cfscript>\n 	" + fun.returnType  +" = ";
+
+	scriptcode += fun.name + "(";
+	scriptcode += toArgumentString(fun);
+	scriptcode += "); \n</script>";
+
+
+	return  scriptcode ;
+
 }
 
 exports.argumentTitles = function(fun){

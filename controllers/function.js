@@ -3,13 +3,20 @@ var fun = require('../model/function.js');
 
 exports.list = function(req, res){
 	var currentversion = version.current();
-		res.json(fun.list(currentversion));
+	var functions = fun.list(currentversion);
+	if(isApi(req)){
+		res.json(functions );
+		return;
+	}
+
+	res.render('functions', {functions:functions});
+
 }
 
 
 exports.get = function(req, res){
-	 var id = req.params.id;
-	 var currentversion = version.current();
+	var id = req.params.id;
+	var currentversion = version.current();
 	var  functionData = fun.get(id, currentversion);
 
 
@@ -18,11 +25,12 @@ exports.get = function(req, res){
 		return;
 	}
 	res.render('function', {
-		function : functionData,
+		func : functionData,
 		version: currentversion,
-		functionCode: fun.toTagCode(functionData),
+		tagcode: fun.toTagCode(functionData),
 		scriptcode: fun.toScriptCode(functionData),
-		arginfo : fun.argumentTitles()
+		arginfo : fun.argumentTitles(),
+		argumentcode : fun.toArgumentString(functionData)
 	});
 
 }

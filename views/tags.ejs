@@ -1,31 +1,46 @@
-	<cfscript>
-		//	Setup the GroupList
-		//This should be done at controller level 
-		prefix = "cf";
+	<!--<cfscript>-->
+		<!--//	Setup the GroupList-->
+		<!--//This should be done at controller level -->
+		<!--prefix = "cf";-->
 
 
-		taglist = rc.taglist;
+		<!--taglist = rc.taglist;-->
 
-		sorttype = function(current,after){
-			return current.getName() GT after.getName();
+		<!--sorttype = function(current,after){-->
+			<!--return current.getName() GT after.getName();-->
+		<!--}-->
+
+		<!--list = new cfc.lists.GroupedList(tagList, sorttype, "_");-->
+
+		<!--aAlphabet = list.getGroupNames();-->
+		<!--HalfLetter = list.getHalfWayGroup();-->
+
+		<!--litems = "_,x_";-->
+		<!--aBodyTypes = {};-->
+		<!--rc.selectedsection = "tags";-->
+
+
+	<!--</cfscript>-->
+
+	<%
+		var tagsAtoZ = {};
+
+		for(t in tags){
+			var tag = tags[t];
+
+
+			var tagInitial = tag.substr(2,1);
+			if(!tagsAtoZ[tagInitial]){
+				tagsAtoZ[tagInitial] = [];
+			}
+			tagsAtoZ[tagInitial].push(tag);
 		}
-
-		list = new cfc.lists.GroupedList(tagList, sorttype, "_");
-
-		aAlphabet = list.getGroupNames();
-		HalfLetter = list.getHalfWayGroup();
-
-		litems = "_,x_";
-		aBodyTypes = {};
-		rc.selectedsection = "tags";
-
-
-	</cfscript>
+ 	%>
 
 <section id="tags">
 	<div class="page-header">
 		 <h2>Tags </h2>
-		 <p class="lead">Tags are the core of Railo Server. This page lists the tags alphabetically and allows you to change which version you want to list the tags for.
+		 <p class="lead">Tags are the core of Railo Server.
 		</p>
 	
 
@@ -35,34 +50,18 @@
 	<div class="row">
 		<div class="col-md-12">
 			<ul class="pagination alphabet">
-				<cfloop array="#aAlphabet#" index="al">
-				<li><a href="###al#">#UCase(al)#</a></li>
-				</cfloop>
+				<% for(initial in tagsAtoZ) { %>
+
+				<li><a href="<%= "#" + initial %>"><%= initial %></a></li>
+
+				<% } %>
+
 			</ul>
 		</div>
 	</div>
 	
 
-	
-	<div class="row">
-		<div class="col-md-12">
-			<h3>View Tags for for Railo Server #rc.version#</h3>
-			<form class="form-inline" role="form">
-				<div class="form-group">
-					<label class="control-label" for="version">Version: </label>
-					<select name="version" class="form-control" id="version">	  					
-					<cfloop array="#rc.versionHistory#" item="version">
-						<option value="#version.getVersionNumber()#" #version.getVersionNumber()  EQ rc.version ? "selected" : ""#>#version.getVersionNumber()#</option>	
-					</cfloop>
-					</select>
-					<button type="submit" class="btn btn-default">View</button>
-				</div>
 
-				
-			</form>
-		</div>
-	</div>
-		
 
 	</div>
 
@@ -70,38 +69,37 @@
 	<cfset cols=3>
 	<cfset counter = 1>
 	<div class="row">
-		<cfloop array="#aAlphabet#" index="al">
+		<% for(initial in tagsAtoZ) { %>
 
 			
-			<div class="col-sm-4" id="#al#">
-				<h4>#UCase(al)#</h4>
+			<div class="col-sm-4" id="<%= initial %>">
+				<h4><%= initial.toUpperCase() %></h4>
 				<cfset items = list.getItemsInGroup(al)>
 				
 				<ul>
-					<cfloop array="#items#" index="i">				
+					<% for(t in tagsAtoZ[initial]) {%>
+					<% var tag = tagsAtoZ[initial][t]%>
 						<li>
-							<a href="#buildURL("tag/#i.getName()#/version/#urlEncodedFormat(rc.version)#")#">
-								<cfif i.getStatus() == "implemeted" or i.getStatus() EQ "implemented">
-									#prefix##i.getName()#
-								<cfelse>
-									<strike>#prefix##i.getName()#</strike></a> (#i.getStatus()#)
-								</cfif>
+							<a href="/tag/<%= tag %>">
+
+								<%= tag %>
+
 
 							</a>
 						</li>
-					</cfloop>
+					<% } %>
 				</ul>
 			</div>
 
-			<cfif (counter MOD 3) EQ 0>
-				</div>
-				<hr>
-				<div class="row">
-			</cfif>
-			
+			<!--<cfif (counter MOD 3) EQ 0>-->
+				<!--</div>-->
+				<!--<hr>-->
+				<!--<div class="row">-->
+			<!--</cfif>-->
+			<!---->
 
-			<cfset counter++>
-		</cfloop>
+
+				<% } %>
 	</div>
 
 </cfoutput>
