@@ -45,7 +45,21 @@
 	%>
 	
 	<div class="text"><%= body[tag.bodyType] %></div>
+		<% versioninfo =  version.split(".") %>
+		<% majmin = versioninfo[0] + "." + versioninfo[1]; %>
+
 	
+		<% if(tag.type == 'cfml') { %> 
+			
+			<h5><a href="https://github.com/getrailo/railo/blob/<%=majmin%>/railo-java/railo-core/src/resource/library/tag/<%= tag.name%>.cfc" target="_new">Source <span class="glyphicon glyphicon-new-window"></span></a></h5>
+			
+		<%}%>
+
+		<% if(tag.type == 'java') { %> 
+			
+			<h5><a href="https://github.com/getrailo/railo/blob/<%=majmin%>/railo-java/railo-core/src/resource/tld/web-cfmtaglibrary_1_0" target="_new">Source <span class="glyphicon glyphicon-new-window"></span></a></h5>
+				
+		<%}%>
 
 	<h4>Example</h4>
 	
