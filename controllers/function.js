@@ -5,10 +5,10 @@ exports.list = function(req, res){
 	var currentversion = version.current();
 	var functions = fun.list(currentversion);
 	if(isApi(req)){
-		res.json(functions );
+		res.json(functions);
 		return;
 	}
-
+	res.locals.title = "Railo Functions Documentation";
 	res.render('functions', {functions:functions});
 
 }
@@ -21,6 +21,7 @@ exports.listObjects = function(req, res){
 		return;
 	}
 
+	res.locals.title = "Railo Object Member Functions Documentation";
 	res.render('objects', {objects:objects});
 
 }
@@ -35,6 +36,7 @@ exports.get = function(req, res){
 		res.json(functionData);
 		return;
 	}
+	res.locals.title = "Railo " + id + " Function Documentation";
 	res.render('function', {
 		func : functionData,
 		version: currentversion,
@@ -42,6 +44,7 @@ exports.get = function(req, res){
 		scriptcode: fun.toTagCode(functionData),
 		arginfo : fun.argumentTitles(),
 		argumentcode : fun.toArgumentString(functionData)
+		
 	});
 
 }
