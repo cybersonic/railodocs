@@ -29,6 +29,10 @@
     "serve-favicon": "^2.1.7"
   },
   "devDependencies": {
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-concat": "^0.5.0",
+    "grunt-contrib-cssmin": "^0.10.0",
+    "grunt-contrib-uglify": "^0.6.0",
     "grunt-contrib-watch": "^0.6.1",
     "nodedump": "0.0.8",
     "pre-commit": "0.0.9"
