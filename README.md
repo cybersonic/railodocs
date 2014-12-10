@@ -10,9 +10,6 @@ You will need node (http://nodejs.org/) and npm (https://www.npmjs.com/) on your
 
 	npm install 
 
-
-
-
 ##Running
 To run the application locally you should do 
 		
@@ -27,7 +24,7 @@ https://github.com/cybersonic/railodocs/blob/master/jsongen.cfm
 
 Just run this and it should generate the documentation in a folder called export (at the moment this is configurable by a url variable called exportPath when you call the script. ) So for example, if you have railo running you can do:
 
-	http://localhost:8888/jsongen.cfm?exportPath=/Users/markdrew/Sites/railodocs/export 
+http://localhost:8888/jsongen.cfm?exportPath=/Users/markdrew/Sites/railodocs/export 
 
 (as an example)
 
@@ -37,5 +34,4 @@ If you are all ready to submit the new version of railo docs or fix a bug or eve
 
 
 ## License
-
 I am still thinking about which license the documentation viewer should be under. TBD
