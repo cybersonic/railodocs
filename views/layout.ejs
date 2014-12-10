@@ -6,7 +6,12 @@
     <meta name="description" content="Documentation Viewer for Railo Server">
     <meta name="author" content="Mark Drew,@markdrew">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Railo Documentation</title>
+    <%
+       if(!title){
+         title = "Railo Documentation";
+      }
+    %>
+    <title><%= title %></title>
     
     <link rel="author" href="humans.txt" />
     <link href="/assets_30/css/bootstrap.min.css" rel="stylesheet" media="screen">
