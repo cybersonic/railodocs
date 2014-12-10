@@ -34,9 +34,26 @@
 		 <strong>Warning!</strong> This function has been deprecated
 	</div>
 	<% } %>
-	<div class="well">
-	Type: <span class="icon-java-bold"></span> <%= func.type %> 
-	</div>
+
+		<% versioninfo =  version.split(".") %>
+		<% majmin = versioninfo[0] + "." + versioninfo[1]; %>
+		<% if(func.type == 'cfml') { %> 
+			
+			<%
+				//try and get the proper case sensitive name for this. WE can get it from the source attrib
+				var caseinsensitivename = func.source.split("/");
+				
+			%>
+		
+			<h5><a href="https://github.com/getrailo/railo/blob/<%=majmin%>/railo-java/railo-core/src/resource/library/function/<%= caseinsensitivename[caseinsensitivename.length-1] %>" target="_new">Source <span class="glyphicon glyphicon-new-window"></span></a></h5>
+			
+		<%}%>
+
+		<% if(func.type == 'java') { %> 
+			
+			<h5><a href="https://github.com/getrailo/railo/blob/<%=majmin%>/railo-java/railo-core/src/resource/fld/web-cfmfunctionlibrary_1_0" target="_new">Source <span class="glyphicon glyphicon-new-window"></span></a></h5>
+				
+		<%}%>
 	
 	<h4>Example</h4>
 	<pre class="prettyprint"><%= tagcode %></pre>
