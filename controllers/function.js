@@ -1,5 +1,6 @@
 var version = require('../model/version.js');
 var fun = require('../model/function.js');
+
 String.prototype.capitalize = function() {
 	return this.charAt(0).toUpperCase() + this.slice(1);
 }
@@ -31,8 +32,11 @@ exports.listObjects = function(req, res){
 exports.get = function(req, res){
 	var id = req.params.id;
 	var currentversion = version.current();
-	var  functionData = fun.get(id, currentversion);
+	var functionData = fun.get(id, currentversion);
 
+	if (functionData === undefined) {
+		return res.render('404', { status: 404, url: req.url });
+	}
 
 	if(isApi(req)){
 		res.json(functionData);

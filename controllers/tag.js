@@ -28,7 +28,17 @@ exports.get = function(req, res){
 	var currentversion = version.current();
 
 	var cleansedTag = cleanTag(id)
+
+	if (cleansedTag === undefined) {
+		return res.render('404', {status: 404, url: req.url});
+	}
+
 	var tagdata = tag.get(cleansedTag, currentversion);
+
+	if (tagdata === undefined) {
+		return res.render('404', { status: 404, url: req.url });
+	}
+
 	if(isApi(req)){
 			res.json(tagdata);
 			return;	
@@ -57,6 +67,9 @@ isApi = function(req){
 cleanTag = function(dirtyTagName){
 	
 	var cleanTagRE = /(cf[a-zA-Z]*)/;
-	var cleanTag = dirtyTagName.match(cleanTagRE)[0];
-	return cleanTag;
+	var cleanTag = dirtyTagName.match(cleanTagRE);
+	if (cleanTag === null || cleanTag.length === 0) {
+		return undefined;
+	}
+	return cleanTag[0];
 }

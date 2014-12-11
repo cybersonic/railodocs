@@ -3,3 +3,5 @@ railo
 site
 .idea
 newrelic_agent.log
+*.iml
+.idea/
