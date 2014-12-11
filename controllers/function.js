@@ -68,7 +68,7 @@ exports.getObject = function(req, res){
 	}
 	res.locals.title = "Railo " + type.capitalize() + "."+ func + "() Function Documentation";
 
-	console.log(functionData);
+	
 	res.render('object', {
 		func : functionData,
 		version: currentversion,

@@ -19,7 +19,7 @@ function get(func, version){
 		}
 		if(cachedFuncs[version][func]){
 
-			console.log("adding ", func);
+			
 			return cachedFuncs[version][func];
 		}
 
