@@ -43,8 +43,11 @@ for(t in objects){
         <div class="col-sm-4" id="<%= ObjectName %>">
             <h4><%= ObjectName.toUpperCase() %></h4>
             <ul>
-                <% for(tagItem in ObjectFuncs) {%>
-                <li><a href=""><%= ObjectFuncs[tagItem] %></a>
+                <% for(tagItem in objects[ObjectName]) {%>
+                <li><a href="/object/<%= ObjectName%>/<%= tagItem %>"><%= tagItem %>
+
+
+                    </a>
 
 
                 </li>
@@ -55,8 +58,5 @@ for(t in objects){
     </div>
 
 </section>
-
-
-<pre><%- nodedump(objects)%></pre>
 
 

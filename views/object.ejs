@@ -1,8 +1,24 @@
 <style>
-	.syntaxAttr={color:maroon;}
+	.syntaxAttr{
+		color:maroon;
+	}
 </style>
 <div class="jumbotron">
-	<h1><%= func.name %> </h1>
+	<%
+	 	typesubs = {
+			'array': 'Array',
+			'datetime': 'DateTime',
+			'image': 'Image',
+			'query': 'Query',
+			'string': 'String',
+			'struct': 'struct'
+		}
+
+
+	    %>
+
+
+	<h1><%= typesubs[func.member.type] %>.<%= func.name %>()	 </h1>
 	<p><%= func.description %></p>
 	<p>Returns: <%= func.returnType %></p>
 	<%
@@ -29,6 +45,8 @@
 
 <section id="fun_description">
  	<hr>
+
+	<pre><%- JSON%></pre>
 	<% if(func.status=='deprecated'){ %>
 	<div class="alert alert-info">
 		 <strong>Warning!</strong> This function has been deprecated

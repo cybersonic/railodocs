@@ -1,6 +1,8 @@
 var version = require('../model/version.js');
 var fun = require('../model/function.js');
-
+String.prototype.capitalize = function() {
+	return this.charAt(0).toUpperCase() + this.slice(1);
+}
 exports.list = function(req, res){
 	var currentversion = version.current();
 	var functions = fun.list(currentversion);
@@ -36,7 +38,7 @@ exports.get = function(req, res){
 		res.json(functionData);
 		return;
 	}
-	res.locals.title = "Railo " + id + " Function Documentation";
+	res.locals.title = "Railo " + id.capitalize() + " Function Documentation";
 	res.render('function', {
 		func : functionData,
 		version: currentversion,
@@ -45,6 +47,36 @@ exports.get = function(req, res){
 		arginfo : fun.argumentTitles(),
 		argumentcode : fun.toArgumentString(functionData)
 		
+	});
+
+}
+
+exports.getObject = function(req, res){
+
+
+	var func = req.params.function;
+	var type = req.params.type;
+
+	var currentversion = version.current();
+	var  functionData = fun.getByTypeAndFunction(type , func, currentversion);
+
+
+
+	if(isApi(req)){
+		res.json(functionData);
+		return;
+	}
+	res.locals.title = "Railo " + type.capitalize() + "."+ func + "() Function Documentation";
+
+	console.log(functionData);
+	res.render('object', {
+		func : functionData,
+		version: currentversion,
+		tagcode: fun.toTagCode(functionData),
+		scriptcode: fun.toTagCode(functionData),
+		arginfo : fun.argumentTitles(),
+		argumentcode : fun.toArgumentString(functionData)
+
 	});
 
 }

@@ -161,6 +161,17 @@ function listObjects(version){
 }
 exports.listObjects = listObjects;
 
+
+function getByTypeAndFunction(type,func,version){
+
+		var objects = listObjects(version);
+		var funcs = objects[type.toLowerCase()];
+		var funcr = funcs[func];
+		return funcr;
+
+}
+
+exports.getByTypeAndFunction = getByTypeAndFunction;
  /**
  * returns a struct of structs where the keys at the top level represent Object names,
  * the keys at 2nd level represent member method name, and their value shows the corresponding

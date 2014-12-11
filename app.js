@@ -10,6 +10,7 @@ var favicon = require('serve-favicon');
 var http = require('http').Server(app);
 var ejs = require('ejs');
 var fs = require('fs');
+require('nodedump');
 
 
 
@@ -35,9 +36,26 @@ app.get('/tags/:filter', tag.list);
 app.get('/tags/:filter/:value', tag.list);
 app.get('/tag/:id', tag.get);
 app.get('/functions', func.list);
-//app.get('/objects', func.listObjects);
+app.get('/objects', func.listObjects);
+app.get('/object/:type/:function', func.getObject);
 app.get('/functions/:filter', func.list);
 app.get('/function/:id', func.get);
+
+//Shortcuts for old site.
+app.get('/index.cfm', home.index);
+app.get('/index.cfm/versions*', version.list);
+app.get('/index.cfm/search/', search.find);
+app.get('/index.cfm/search/:term', search.find);
+app.get('/index.cfm/tags', tag.list);
+app.get('/index.cfm/tags/:filter', tag.list);
+app.get('/index.cfm/tags/:filter/:value', tag.list);
+app.get('/index.cfm/tag/:id', tag.get);
+app.get('/index.cfm/functions', func.list);
+app.get('/index.cfm/objects', func.listObjects);
+app.get('/index.cfm/object/:type/:function', func.getObject);
+app.get('/index.cfm/functions/:filter', func.list);
+app.get('/index.cfm/function/:id', func.get);
+
 
 app.use(function(req, res, next){
 	// the status option, or res.statusCode = 404
