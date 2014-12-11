@@ -3,7 +3,8 @@ var fun = require('../model/function.js');
 
 String.prototype.capitalize = function() {
 	return this.charAt(0).toUpperCase() + this.slice(1);
-}
+};
+
 exports.list = function(req, res){
 	var currentversion = version.current();
 	var functions = fun.list(currentversion);
@@ -14,7 +15,7 @@ exports.list = function(req, res){
 	res.locals.title = "Railo Functions Documentation";
 	res.render('functions', {functions:functions});
 
-}
+};
 
 exports.listObjects = function(req, res){
 	var currentversion = version.current();
@@ -27,7 +28,7 @@ exports.listObjects = function(req, res){
 	res.locals.title = "Railo Object Member Functions Documentation";
 	res.render('objects', {objects:objects});
 
-}
+};
 
 exports.get = function(req, res){
 	var id = stripJSONSuffix(req.params.id);
@@ -53,7 +54,7 @@ exports.get = function(req, res){
 		
 	});
 
-}
+};
 
 exports.getObject = function(req, res){
 
@@ -83,22 +84,22 @@ exports.getObject = function(req, res){
 
 	});
 
-}
+};
 
-isApi = function(req){
+var isApi = function(req){
 
 	var pathParts = req._parsedUrl.pathname.split(".");
 	if(pathParts[pathParts.length-1].toLowerCase() == 'json') {
 		return true;
 	}
 	return false;
-}
+};
 
 
-stripJSONSuffix = function(input) {
+var stripJSONSuffix = function(input) {
 	input = input.trim().toLowerCase();
 	if (input.substr(input.length - 5, 5) == '.json') {
 		return input.substring(0, input.length - 5);
 	}
 	return input;
-}
+};
