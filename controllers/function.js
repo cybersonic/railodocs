@@ -88,7 +88,7 @@ exports.getObject = function(req, res){
 isApi = function(req){
 
 	var pathParts = req._parsedUrl.pathname.split(".");
-	if(pathParts[pathParts.length-1] == 'json') {
+	if(pathParts[pathParts.length-1].toLowerCase() == 'json') {
 		return true;
 	}
 	return false;
@@ -96,6 +96,7 @@ isApi = function(req){
 
 
 stripJSONSuffix = function(input) {
+	input = input.trim().toLowerCase();
 	if (input.substr(input.length - 5, 5) == '.json') {
 		return input.substring(0, input.length - 5);
 	}

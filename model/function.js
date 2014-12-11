@@ -23,7 +23,6 @@ function get(func, version){
 	var path = "./export/" + version + "/json/functions/" + func + ".json";
 
 	if (!fs.existsSync(path)) {
-		cachedFuncs[version][func] = undefined;
 		return undefined;
 	}
 
