@@ -12,19 +12,21 @@ exports.list =list;
 
 function get(func, version){
 
+	if(!cachedFuncs[version]){
+		cachedFuncs[version] = {};
+	}
+	if(cachedFuncs[version][func]){
+		console.log("adding ", func);
+		return cachedFuncs[version][func];
+	}
 
+	var path = "./export/" + version + "/json/functions/" + func + ".json";
 
-		if(!cachedFuncs[version]){
-			cachedFuncs[version] = {};
-		}
-		if(cachedFuncs[version][func]){
+	if (!fs.existsSync(path)) {
+		return undefined;
+	}
 
-			
-			return cachedFuncs[version][func];
-		}
-
-
-	var tagData = fs.readFileSync("./export/" + version + "/json/functions/" + func + ".json", "utf8");
+	var tagData = fs.readFileSync(path, "utf8");
 	var fun =  JSON.parse(tagData);
 	cachedFuncs[version][func] = fun;
 	return cachedFuncs[version][func];

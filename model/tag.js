@@ -9,7 +9,13 @@ exports.list = function(version){
 
 exports.get = function(tag, version){
 
-	var taglist =  JSON.parse(fs.readFileSync("./export/" + version + "/json/tags/" + tag + ".json", "utf8"));
+	var path = "./export/" + version + "/json/tags/" + tag + ".json";
+
+	if (!fs.existsSync(path)) {
+		return undefined;
+	}
+
+	var taglist =  JSON.parse(fs.readFileSync(path, "utf8"));
 	return taglist;
 
 }
