@@ -24,7 +24,7 @@ exports.list = function(req, res){
 
 exports.get = function(req, res){
 
-	var id = req.params.id;
+	var id = stripJSONSuffix(req.params.id);
 	var currentversion = version.current();
 
 	var cleansedTag = cleanTag(id)
@@ -65,11 +65,17 @@ isApi = function(req){
 }
 
 cleanTag = function(dirtyTagName){
-	
 	var cleanTagRE = /(cf[a-zA-Z]*)/;
 	var cleanTag = dirtyTagName.match(cleanTagRE);
 	if (cleanTag === null || cleanTag.length === 0) {
 		return undefined;
 	}
 	return cleanTag[0];
+}
+
+stripJSONSuffix = function(input) {
+	if (input.substr(input.length - 5, 5) == '.json') {
+		return input.substring(0, input.length - 5);
+	}
+	return input;
 }

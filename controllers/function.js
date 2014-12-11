@@ -30,7 +30,7 @@ exports.listObjects = function(req, res){
 }
 
 exports.get = function(req, res){
-	var id = req.params.id;
+	var id = stripJSONSuffix(req.params.id);
 	var currentversion = version.current();
 	var functionData = fun.get(id, currentversion);
 
@@ -92,4 +92,12 @@ isApi = function(req){
 		return true;
 	}
 	return false;
+}
+
+
+stripJSONSuffix = function(input) {
+	if (input.substr(input.length - 5, 5) == '.json') {
+		return input.substring(0, input.length - 5);
+	}
+	return input;
 }
