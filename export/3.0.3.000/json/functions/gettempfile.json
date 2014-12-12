@@ -1,0 +1,1 @@
+{"name":"gettempfile","argumentType":"fix","argMax":-1,"returnType":"string","description":"","arguments":[{"name":"dir","type":"string","description":"","required":true},{"name":"prefix","type":"string","description":"","required":true}],"argMin":2}

@@ -1,0 +1,1 @@
+{"name":"filesetattribute","argumentType":"fix","argMax":-1,"returnType":"void","description":"","arguments":[{"name":"source","type":"any","description":"","required":true},{"name":"attribute","type":"string","description":"","required":true}],"argMin":2}

@@ -1,0 +1,1 @@
+{"name":"yesnoformat","argumentType":"fix","argMax":-1,"returnType":"string","description":"","arguments":[{"name":"value","type":"any","description":"","required":true}],"argMin":1}

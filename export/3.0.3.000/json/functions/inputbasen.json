@@ -1,0 +1,1 @@
+{"name":"inputbasen","argumentType":"fix","argMax":-1,"returnType":"number","description":"","arguments":[{"name":"string","type":"string","description":"","required":true},{"name":"radix","type":"number","description":"","required":true}],"argMin":2}

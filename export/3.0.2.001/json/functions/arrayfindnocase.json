@@ -1,0 +1,1 @@
+{"name":"arrayfindnocase","argumentType":"fix","argMax":-1,"returnType":"number","description":"","arguments":[{"name":"array","type":"array","description":"","required":true},{"name":"value","type":"any","description":"","required":true}],"argMin":2}

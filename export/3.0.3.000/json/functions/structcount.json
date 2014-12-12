@@ -1,0 +1,1 @@
+{"name":"structcount","argumentType":"fix","argMax":-1,"returnType":"number","description":"","arguments":[{"name":"structure","type":"struct","description":"","required":true}],"argMin":1}

@@ -1,0 +1,1 @@
+{"argumentType":"fixed","arguments":[],"argMin":0,"status":"implemeted","description":"Returns ORM session factory instance","name":"ormreload","type":"java","argMax":-1,"returnType":"void"}

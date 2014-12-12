@@ -1,0 +1,1 @@
+{"name":"structfind","argumentType":"fix","argMax":-1,"returnType":"any","description":"","arguments":[{"name":"structure","type":"struct","description":"","required":true},{"name":"key","type":"string","description":"","required":true}],"argMin":2}

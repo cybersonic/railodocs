@@ -1,0 +1,1 @@
+{"name":"deleteclientvariable","argumentType":"fix","argMax":-1,"returnType":"boolean","description":"","arguments":[{"name":"\"name\"","type":"string","description":"","required":true}],"argMin":1}

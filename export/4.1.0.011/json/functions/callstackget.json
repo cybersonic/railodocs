@@ -1,0 +1,1 @@
+{"returnType":"array","status":"implemeted","arguments":[],"description":"return the context (stacktrace) of the current position.","argMax":-1,"name":"callstackget","argMin":0,"type":"java","argumentType":"fixed"}

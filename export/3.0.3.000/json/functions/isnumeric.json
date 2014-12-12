@@ -1,0 +1,1 @@
+{"name":"isnumeric","argumentType":"fix","argMax":-1,"returnType":"boolean","description":"","arguments":[{"name":"string","type":"any","description":"","required":true}],"argMin":1}

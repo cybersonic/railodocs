@@ -17,7 +17,14 @@
                 %>
                 <tr>
                     <td><%= version.version %></td>
-                    <td><a href="<%-version.versionNameExplanation%>" target="_blank"><%= version.versionName%><span class="glyphicon glyphicon-new-window"></span></a></td>
+                    <td>
+
+                        <% if( version.versionNameExplanation && version.versionNameExplanation.length){ %>
+                            <a href="<%-version.versionNameExplanation%>" target="_blank"><%= version.versionName%> <span class="glyphicon glyphicon-new-window"></span></a>
+                        <% } else { %>
+                        <%= version.versionName%>
+                        <% } %>
+                      </td>
                     <td><%=  moment(version["release-date"]).format("D MMM YYYY") %></td>
 
 
