@@ -73,4 +73,7 @@ param name="url.exportPath" default="#expandPath("../../../export")#";
 	arraySort(taglist, "textnocase", "ASC");
 	FileWrite(JSONDocsPath & "#sep#tags.json", SerializeJSON(taglist));
 
+	//Finally Write the Version information json
+	var versioninfo = {};
+	FileWrite(JSONDocsPath & "#sep#version.json", SerializeJSON(SERVER.railo));
 </cfscript>
