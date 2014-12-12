@@ -8,7 +8,7 @@
 //Create the app name depending on the environment
 var env = process.env.NODE_ENV ? process.env.NODE_ENV : "development";
 var license = process.env.NEW_RELIC;
-console.log("Using License:", license);
+
 exports.config = {
   /**
    * Array of application names.
