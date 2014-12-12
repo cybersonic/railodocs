@@ -19,7 +19,7 @@
     <link href="/assets/css/font-mfizz/font-mfizz.css" rel="stylesheet">
 
     <script src="/assets_30/js/jquery.js"></script>
-    <script src="/assets_30/js/bootstrap.min.js"></script>
+    <script src="/assets_30/js/bootstrap.js"></script>
     <script src="/assets_30/js/typeahead.min.js"></script>
     <script src="/assets_30/js/jquery-ui.js"></script>
     <script src="/assets_30/js/application.js"></script>
@@ -44,7 +44,8 @@
             <li class="#selectedsection EQ "home" ? "active" : ""#"><a href="/"class="navbar-brand">Home</a></li>
 
 
-            <li><a ><%= version %></a></li>
+
+            <li><a href="/versions"><%= version %></a></li>
             <li class="#selectedsection EQ "tags" ? "active" : ""#"><a href="/tags">Tags</a></li>
             <li class="#selectedsection EQ "functions" ? "active" : ""#"><a href="/functions">Functions</a></li>
             <li class="#selectedsection EQ "objects" ? "active" : ""#"><a href="/objects">Objects</a></li>
@@ -123,7 +124,13 @@
 
 </cfoutput>
 
+    <script>
 
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+        })
+
+    </script>
  
  <cfif getEnvironment() EQ "prod">
 

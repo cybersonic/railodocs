@@ -74,6 +74,10 @@ param name="url.exportPath" default="#expandPath("../../../export")#";
 	FileWrite(JSONDocsPath & "#sep#tags.json", SerializeJSON(taglist));
 
 	//Finally Write the Version information json
-	var versioninfo = {};
-	FileWrite(JSONDocsPath & "#sep#version.json", SerializeJSON(SERVER.railo));
+	var versioninfo = Duplicate(SERVER.railo);
+
+	//Remove system info
+	StructDelete(versioninfo, 'loaderPath');
+
+	FileWrite(JSONDocsPath & "#sep#version.json", SerializeJSON(versioninfo));
 </cfscript>

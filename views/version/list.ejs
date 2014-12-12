@@ -1,0 +1,31 @@
+<div class="row">
+    <div class="col-md-12">
+        <h1>Railo Versions</h1>
+
+        <table class="table table-striped">
+            <thead>
+            <th>Number</th>
+            <th>Name</th>
+            <th>Release Date</th>
+
+            </thead>
+            <tbody>
+                <% for(v in versions){
+                    var version = versions[v]
+                    var relDate =  Date.parse(version["release-date"]);
+                    var relDateFormatted = moment(relDate, "D MMM YYYY");
+                %>
+                <tr>
+                    <td><%= version.version %></td>
+                    <td><a href="<%-version.versionNameExplanation%>" target="_blank"><%= version.versionName%><span class="glyphicon glyphicon-new-window"></span></a></td>
+                    <td><%=  moment(version["release-date"]).format("D MMM YYYY") %></td>
+
+
+                </tr>
+                <% }%>
+            </tbody>
+
+
+        </table>
+    </div>
+</div>

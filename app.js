@@ -1,11 +1,17 @@
-require('newrelic');
+var env = process.env.NODE_ENV ? process.env.NODE_ENV : "development";
+if(env === 'production'){
+	require('newrelic');
+}
 var express = require("express");
-express.Server = express.HTTPServer
+express.Server = express.HTTPServer;
 var app = express();
+require('express-helpers')(app);
+
 
 
 
 var expressLayouts = require('express-ejs-layouts');
+
 var favicon = require('serve-favicon');
 var http = require('http').Server(app);
 var ejs = require('ejs');
@@ -17,13 +23,14 @@ require('nodedump');
 var version = require('./controllers/version');
 var tag = require('./controllers/tag');
 var func = require('./controllers/function');
+var obj = require('./controllers/object');
 var home = require('./controllers/home');
 var search = require('./controllers/search');
 
 app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(home.before);
 app.set('view engine', 'ejs');
-app.set('layout', "layout");
+app.set('layout', "layout/layout");
 app.use(expressLayouts);
 app.use(express.static(__dirname + '/public'));
 
@@ -36,8 +43,8 @@ app.get('/tags/:filter', tag.list);
 app.get('/tags/:filter/:value', tag.list);
 app.get('/tag/:id', tag.get);
 app.get('/functions', func.list);
-app.get('/objects', func.listObjects);
-app.get('/object/:type/:function', func.getObject);
+app.get('/objects', obj.listObjects);
+app.get('/object/:type/:function', obj.getObject);
 app.get('/functions/:filter', func.list);
 app.get('/function/:id', func.get);
 
@@ -51,8 +58,8 @@ app.get('/index.cfm/tags/:filter', tag.list);
 app.get('/index.cfm/tags/:filter/:value', tag.list);
 app.get('/index.cfm/tag/:id', tag.get);
 app.get('/index.cfm/functions', func.list);
-app.get('/index.cfm/objects', func.listObjects);
-app.get('/index.cfm/object/:type/:function', func.getObject);
+app.get('/index.cfm/objects', obj.listObjects);
+app.get('/index.cfm/object/:type/:function', obj.getObject);
 app.get('/index.cfm/functions/:filter', func.list);
 app.get('/index.cfm/function/:id', func.get);
 

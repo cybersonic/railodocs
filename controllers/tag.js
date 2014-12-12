@@ -1,6 +1,7 @@
  var version = require('../model/version.js');
  var tag = require('../model/tag.js');
  var ejs = require('ejs');
+ var util = require('./util.js')
 
 exports.list = function(req, res){
 	var currentversion = version.current();
@@ -13,21 +14,21 @@ exports.list = function(req, res){
 
 
 
-	if(isApi(req)){
+	if(util.isApi(req)){
 		res.json(taglist);
 		return;	
 	}
 	res.locals.title = "Railo Tag Documentation";
-	res.render('tags', { tags: taglist, version: currentversion });
+	res.render('tag/list', { tags: taglist, version: currentversion });
 };
 
 
 exports.get = function(req, res){
 
-	var id = stripJSONSuffix(req.params.id);
+	var id = util.stripJSONSuffix(req.params.id);
 	var currentversion = version.current();
 
-	var cleansedTag = cleanTag(id)
+	var cleansedTag = util.cleanTag(id)
 
 	if (cleansedTag === undefined) {
 		return res.render('404', {status: 404, url: req.url});
@@ -39,13 +40,13 @@ exports.get = function(req, res){
 		return res.render('404', { status: 404, url: req.url });
 	}
 
-	if(isApi(req)){
+	if(util.isApi(req)){
 			res.json(tagdata);
 			return;	
 	}
 
 	res.locals.title = "Railo "+ id +" Tag Documentation";
-	res.render('tag', {
+	res.render('tag/view', {
 		 tag : tagdata,
 		 version: currentversion,
 		 tagcode:tag.toTagCode(tagdata),
@@ -55,28 +56,3 @@ exports.get = function(req, res){
 };
 
 
-var isApi = function(req){
-	
-	var pathParts = req._parsedUrl.pathname.split(".");
-	if(pathParts[pathParts.length-1].toLowerCase() == 'json') {
-		return true;
-	}
-	return false;
-};
-
-var cleanTag = function(dirtyTagName){
-	var cleanTagRE = /(cf[a-zA-Z]*)/;
-	var cleanTag = dirtyTagName.match(cleanTagRE);
-	if (cleanTag === null || cleanTag.length === 0) {
-		return undefined;
-	}
-	return cleanTag[0];
-};
-
-var stripJSONSuffix = function(input) {
-	input = input.trim().toLowerCase();
-	if (input.substr(input.length - 5, 5) == '.json') {
-		return input.substring(0, input.length - 5);
-	}
-	return input;
-};
