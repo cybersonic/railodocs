@@ -5,6 +5,6 @@ var search = require('../model/search.js');
 
 exports.find  = function(req, res){
 
-     var term = req.query.term ? req.query.term : req.params.term;
+     var term = req.query.term ? req.query.term : "";
     res.json(search.find(term));
 }
