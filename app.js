@@ -5,10 +5,6 @@ if(env === 'production'){
 var express = require("express");
 express.Server = express.HTTPServer;
 var app = express();
-require('express-helpers')(app);
-
-
-
 
 var expressLayouts = require('express-ejs-layouts');
 
