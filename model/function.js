@@ -68,6 +68,50 @@ exports.toTagCode = function(fun){
 	return tagcode ;
 }
 
+exports.toObjectCode = function(fun){
+	var tagcode = " ";
+
+	tagcode+= fun.name + "(";
+	var optCount =  0;
+	var first = true;
+	var seccond = false;
+	var counter = 1;
+
+	for(var a in fun.arguments ){
+		var arg = fun.arguments[a];
+		if(arg.status == 'hidden'){
+			continue;
+		}
+
+		if(counter == 1){
+			first=false;
+			seccond=true;
+			counter++;
+			continue;
+		}
+
+		if(counter != 1 && counter !=2){
+			tagcode+=",";
+		}
+
+		if(!arg.required){
+			optCount++;
+			tagcode+="[";
+		}
+		tagcode+=arg.type + " ";
+		tagcode+=arg.name;
+		first = false;
+		counter ++;
+	}
+
+	for(var i=1;i<=optCount;i++){
+		tagcode+="]";
+	}
+	tagcode+= "):" + fun.returnType;
+
+	return tagcode ;
+}
+
  function toArgumentString(fun) {
 
 	var scriptcode = "";

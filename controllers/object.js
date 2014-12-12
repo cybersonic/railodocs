@@ -38,8 +38,7 @@ exports.getObject = function(req, res){
     res.render('object/view', {
         func : functionData,
         version: currentversion,
-        tagcode: fun.toTagCode(functionData),
-        scriptcode: fun.toTagCode(functionData),
+        tagcode: fun.toObjectCode(functionData),
         arginfo : fun.argumentTitles(),
         argumentcode : fun.toArgumentString(functionData)
 

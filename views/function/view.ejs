@@ -65,9 +65,9 @@
 			<tr><th>Chanining Allowed?</th><td><%= func.member.chaining %></td></tr>
 			<% if(func.member.name.length){%>
 
-				<tr><th>Member name:</th><td>
-					<a href="/object/<%= func.member.type + '/' + func.name %>">
-					<em><%= func.member.type.capitalize() %></em>.<strong><%= func.name %></strong>( <%= argumentcode %> )
+				<tr><th>Object usage:</th><td>
+					<a href="/object/<%= func.member.type + '/' + func.member.name %>">
+					<em><%= func.member.type.capitalize() %></em>.<strong><%= func.member.name %></strong>( <%= argumentcode %> )
 						</a>
 
 				</td></tr>

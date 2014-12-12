@@ -11,14 +11,14 @@
 			'image': 'Image',
 			'query': 'Query',
 			'string': 'String',
-			'struct': 'struct'
+			'struct': 'Struct'
 		}
 
 
 	    %>
 
 
-	<h1><%= typesubs[func.member.type] %>.<%= func.name %>()	 </h1>
+	<h1><%= typesubs[func.member.type] %>.<%= func.member.name %>()	 </h1>
 	<p><%= func.description %></p>
 	<p>Returns: <%= func.returnType %></p>
 	<%
@@ -83,10 +83,10 @@
 			<tr><th>Chanining Allowed?</th><td><%= func.member.chaining %></td></tr>
 			<% if(func.member.name.length){%>
 
-				<tr><th>Member name:</th><td>
-					<a href="/object/<%= func.member.type + '/' + func.name %>">
-					<em><%= func.member.type.capitalize() %></em>.<strong><%= func.name %></strong>( <%= argumentcode %> )
-						</a>
+			<tr><th>Function usage:</th><td>
+					<a href="/function/<%=  func.name %>">
+						<strong><%= func.name %></strong>( <%= argumentcode %> )
+					</a>
 
 				</td></tr>
 			<% } %>
