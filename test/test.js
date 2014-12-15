@@ -1,12 +1,10 @@
 //This is a test of the test system
+var test = require('tape');
 
-var assert = require('assert');
+test('testy testt', function (t) {
 
-describe("Array", function(){
-    describe("#indexOf()", function(){
-        it('should return -1 when the value is not resent', function(){
-            assert.equal(-1, [1,2,3].indexOf(5));
-            assert.equal(-1, [1,2,3].indexOf(0));
-        });
-    });
+    t.plan(1);
+
+    t.equal(1,1);
+    t.end();
 });

@@ -1,27 +1,3 @@
-	<!--<cfscript>-->
-		<!--//	Setup the GroupList-->
-		<!--//This should be done at controller level -->
-		<!--prefix = "cf";-->
-
-
-		<!--taglist = rc.taglist;-->
-
-		<!--sorttype = function(current,after){-->
-			<!--return current.getName() GT after.getName();-->
-		<!--}-->
-
-		<!--list = new cfc.lists.GroupedList(tagList, sorttype, "_");-->
-
-		<!--aAlphabet = list.getGroupNames();-->
-		<!--HalfLetter = list.getHalfWayGroup();-->
-
-		<!--litems = "_,x_";-->
-		<!--aBodyTypes = {};-->
-		<!--rc.selectedsection = "tags";-->
-
-
-	<!--</cfscript>-->
-
 	<%
 		var tagsAtoZ = {};
 
@@ -45,7 +21,6 @@
 	
 
 
-	<cfoutput>
 	
 	<div class="row">
 		<div class="col-md-12">
@@ -66,8 +41,7 @@
 	</div>
 
 
-	<cfset cols=3>
-	<cfset counter = 1>
+
 	<div class="row">
 		<% for(initial in tagsAtoZ) { %>
 
@@ -90,19 +64,9 @@
 					<% } %>
 				</ul>
 			</div>
-
-			<!--<cfif (counter MOD 3) EQ 0>-->
-				<!--</div>-->
-				<!--<hr>-->
-				<!--<div class="row">-->
-			<!--</cfif>-->
-			<!---->
-
-
-				<% } %>
+		<% } %>
 	</div>
 
-</cfoutput>
 </section>
 
 

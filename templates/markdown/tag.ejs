@@ -1,0 +1,18 @@
+# cf<%= tag.name %> #
+<%
+String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
+var labeltype = 'label-default';
+var statusLabel = tag.status.capitalize();
+if(tag.status == 'implemented' || tag.status == 'implemeted'){
+    labeltype = 'label-success';
+    statusLabel = 'Implemented';
+}
+if(tag.status == 'deprecated'){
+    labeltype = 'label-warning';
+
+}
+%>
+<%= tag.description %>
+Status: <%= statusLabel %>
