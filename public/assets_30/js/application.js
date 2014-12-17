@@ -42,13 +42,23 @@
                     return;
                 }
 
+                var selectedItem = ui.item.value;
 
-                if(ui.item.value.startsWith("cf")){
+                if(selectedItem.startsWith("cf")){
                     window.location = "/tag/" +  ui.item.value;
+                }
+                else if(selectedItem.split(".").length == 2){
+                    var parts = selectedItem.split(".");
+
+                    var type = parts[0];
+                    var func = parts[1].replace(/\(\)/, "");
+
+                    window.location = "/object/"+ type + "/" + func;
                 }
                 else {
                     window.location = "/function/" + ui.item.value;
                 }
+
             }
         });
 

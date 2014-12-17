@@ -3,6 +3,7 @@
  */
 var tags = require('../model/tag.js');
 var functions = require('../model/function.js');
+
 var version = require('../model/version.js');
 
 
@@ -11,12 +12,13 @@ var indexeditems = [];
 //Main search function
 exports.find = function(term){
 
-    if(!term){
+    if(!term || !term.length){
         return [];
     }
 
 
         if(!indexeditems.length){
+            console.log("indexing things");
             this.index();
         }
         var results = []
@@ -33,10 +35,13 @@ exports.find = function(term){
 
 exports.index = function(){
         console.log("Indexing the search collection")
+
         var versionString = version.current();
         var tagList = tags.list(versionString);
         var funcList = functions.list(versionString);
+        var objList = functions.listObjects(versionString);
 
+        console.log(objList);
         tagList.forEach(function(item){
             indexeditems.push(item.toLowerCase());
 
@@ -44,4 +49,17 @@ exports.index = function(){
         funcList.forEach(function(item){
             indexeditems.push(item.toLowerCase());
         });
+
+
+        for(var type in objList){
+
+
+            for(var mf in objList[type]){
+                indexeditems.push(type + "." + mf + "()");
+            }
+
+        }
+
+        //Now get the memberFunctions.
+
 }
