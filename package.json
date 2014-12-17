@@ -25,6 +25,7 @@
     "moment": "^2.8.4",
     "newrelic": "^1.14.0",
     "nodedump": "0.0.8",
+    "raven": "^0.7.2",
     "serve-favicon": "^2.1.7",
     "tape": "^3.0.3"
   },
