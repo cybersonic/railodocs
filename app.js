@@ -3,7 +3,7 @@ if(env === 'production'){
 	require('newrelic');
 }
 var express = require("express");
-express.Server = express.HTTPServer;
+	express.Server = express.HTTPServer;
 var app = express();
 
 var expressLayouts = require('express-ejs-layouts');
@@ -13,6 +13,8 @@ var http = require('http').Server(app);
 var ejs = require('ejs');
 var fs = require('fs');
 require('nodedump');
+var raven = require('raven');
+var client = new raven.Client('https://813fce3ad7c04dbea6f0730b9d4d39c8:5d9628bffbaf43feb6769b6294042596@cmdbase-sentinel.herokuapp.com/2');
 
 
 
@@ -22,6 +24,7 @@ var func = require('./controllers/function');
 var obj = require('./controllers/object');
 var home = require('./controllers/home');
 var search = require('./controllers/search');
+
 
 app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(home.before);
@@ -64,6 +67,7 @@ app.use(function(req, res, next){
 	// the status option, or res.statusCode = 404
 	// are equivalent, however with the option we
 	// get the "status" local available as well
+	client.catpureMessage("404 for " + req.url);
 	res.render('404', { status: 404, url: req.url });
 });
 
@@ -71,12 +75,13 @@ app.use(function(err, req, res, next){
 	// we may use properties of the error object
 	// here and next(err) appropriately, or if
 	// we possibly recovered from the error, simply next().
+
+	client.captureError(err);
 	res.render('500', {
 		status: err.status || 500
 		, error: err
 	});
 });
-
 
 
 app.set('port', (process.env.PORT || 3000));
