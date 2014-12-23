@@ -94,7 +94,41 @@
 		</div>
 
 	<% }%>
-	
+	<% if(tag.attributeType == "noname") { %>
+	<table class="table table-striped table table-bordered">
+		<thead>
+		<tr>
+			<th width="21%"><%= attrinfo.text.doc.attr.name %></th>
+			<th width="7%"><%= attrinfo.text.doc.attr._type %></th>
+			<th whostelbookeridth="7%"><%= attrinfo.text.doc.attr.required %></th>
+			<th width="65%"><%= attrinfo.text.doc.attr.description %></th>
+		</tr>
+		</thead>
+		<tbody>
+		<% for(key in tag.attributes) {
+			var attr = tag.attributes[key];
+			if(attr.status == 'hidden') {
+				continue;
+			}
+		%>
+
+		<tr>
+			<td><%=  key %></td>
+			<td><%=  attr.type == "object" ? "any" : attr.type %></td>
+			<td><%= attr.required ? "Yes" :  "No" %></td>
+			<td>
+				<% if(attr.status =='deprecated') { %>
+				<b class="error"> <%= attrinfo.text.doc.depAttr %></b>
+				<%} else { %>
+				<%- attr.description.replace(/\n/g, "<br>") %>
+				<%}%>
+			</td>
+		</tr>
+		<% } %>
+		</tbody>
+	</table>
+
+	<% } %>
 	<% if ((tag.attributeType == "fixed" || tag.attributeType == "mixed") && Object.keys(tag.attributes).length) { %>
 			<table class="table table-striped table table-bordered">
 				<thead>
