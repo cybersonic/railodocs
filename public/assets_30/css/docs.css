@@ -2,6 +2,15 @@
 body {
     position: relative;
     padding-top: 60px;
+	font: 14px/1.6 "Open Sans",sans-serif;
+}
+
+#description .description {
+	position: relative;
+	top: -5px;
+	font: 100 4.2em "Helvetica Neue","Open Sans",sans-serif;
+	color: #aeaeae;
+	line-height: .75;
 }
 .navbar-brand {
 	background: url("/images/railo_logo.png") no-repeat right center;
